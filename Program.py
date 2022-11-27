@@ -1,6 +1,5 @@
 import cv2
 import pytesseract as pt
-import easyocr
 import os
 
 texts = []
@@ -9,7 +8,7 @@ def split_video_to_frame(video):
     if(not os.path.exists('cashe/')):
         os.mkdir('cashe/')
     
-    while(picN<=100):
+    while(True):
         isFrame, pic = video.read()
         if isFrame:
             cv2.imwrite(f'cashe/pic{picN}.jpg', pic)
@@ -50,8 +49,10 @@ def read_text_from_frame(img, picN):
 
 def sort_text(texts, t):
     t = t.replace("\n\x0c",""); t = t.replace("\x0c",""); t = t.replace("(",""); t = t.replace(")",""); t = t.replace("/",""); t = t.replace("\n\n",""); t = t.replace(" ","")
-    
-    if(t != [] or t != 0 or len(t) >= 8):
+    t = t.replace("[",""); t = t.replace("]",""); t = t.replace("*",""); t = t.replace("|",""); t = t.replace("`",""); t = t.replace("-",""); t = t.replace(":","")
+    t = t.replace("=",""); t = t.replace(">",""); t = t.replace("<",""); t = t.replace(";","")
+
+    if(t != [] or t != '' or len(t) >= 8):
         texts.append(t)
 
 
